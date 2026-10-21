@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Noor — A Verse to Reflect On
 
-## Getting Started
+A daily Qur'an verse experience. A 3D book opens to reveal a curated verse — Arabic script, transliteration, and translation — alongside a short personal reflection. Also includes a browsable grid of the 99 Names of Allah (with a flashcard quiz to help memorize them) and a Themes section for browsing curated verses by topic (patience, hope, trust, and more).
 
-First, run the development server:
+Tech stack
+Next.js (App Router, TypeScript)
+Tailwind CSS v4 + Base UI / shadcn ("base-nova" style) for styling and components
+React Three Fiber + drei + Three.js for the animated 3D book (two real GLB models — see Credits below)
+Framer Motion for layout, scroll-reveal, and overlay animations throughout
+Al Quran Cloud API (api.alquran.cloud) for live verse text — Arabic (Uthmani script), Sahih International translation, and transliteration, fetched per verse at request time
+Features
+Verse of the day — a random verse drawn from a curated pool (data/curated-verses.ts), each with its own short written reflection. "Show another verse" draws a different one without repeating the current pick.
+3D book — closed book stands upright; tapping it opens to a flat spread with a camera angle that eases from a steeper, standing-book-friendly pitch to a flatter, more side-on angle as it opens, keeping the (intentionally blank) interior pages out of direct view.
+Reflection view — a second tap reveals the verse's personal reflection over the ambient background scene.
+The 99 Names — all 99 names (Arabic, transliteration, short meaning), grouped in tens with scroll-reveal animation. Tap a name for a short explanation of what it signifies; a "Practice the Names" button opens a flashcard quiz (pick a group of 10, flip through, no scoring).
+Themes — browse the curated verse pool by theme (patience, hope, trust in Allah, mercy & forgiveness, gratitude, guidance, peace of heart, self-reflection); each theme pill shows how many curated verses it currently has.
+Setup
+git clone https://github.com/Adryanrk/noor-app.git
+cd noor-app
+npm install
+Environment variables
 
-```bash
+None needed. The only external data source is the Al Quran Cloud API, which is public and keyless — nothing to configure locally or in Vercel's environment variable settings.
+
+Running locally
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Opens at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To verify a production build before deploying:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+npm run build
+Security
 
-## Learn More
+No authentication, user accounts, or stored user data anywhere in this app — it's a static client experience with one outgoing call to a public, keyless API. There's no secret to leak and no per-user data to isolate, so there isn't a meaningful attack surface beyond what any static Next.js site has.
 
-To learn more about Next.js, take a look at the following resources:
+Credits
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Both 3D book models are used under CC BY 4.0 and credited in the page footer:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Closed book: "Quran 3D Free" by Muhammed Reca Mermutluoğlu, licensed under CC BY 4.0.
+Open book: "Book" by Pixel, licensed under CC BY 4.0.
 
-## Deploy on Vercel
+Verse text (Arabic, translation, transliteration) is served by the Al Quran Cloud API.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Live deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+https://noor-app-ruby.vercel.app/
